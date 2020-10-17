@@ -22,7 +22,7 @@ import java.util.Collections;
 
 public class StreakFragment extends Fragment implements AddStreakDialogue.onInputSelected{
     private RecyclerView streakRecyclerView;
-    private RecyclerView.Adapter streakRecyclerViewAdapter;
+    private RecyclerViewAdapter streakRecyclerViewAdapter;
     private RecyclerView.LayoutManager streakRecyclerViewLayoutManager;
     private FloatingActionButton addStreakButton;
     private ArrayList<StreakItem> streakItems;
@@ -83,6 +83,13 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
         streakRecyclerViewAdapter = new RecyclerViewAdapter(streakItems);
         streakRecyclerView.setLayoutManager(streakRecyclerViewLayoutManager);
         streakRecyclerView.setAdapter(streakRecyclerViewAdapter);
+        streakRecyclerViewAdapter.setSendInfo(new RecyclerViewAdapter.sendInfo(){
+            @Override
+            public void delete(int position) {
+                streakItems.remove(position);
+                streakRecyclerViewAdapter.notifyItemRemoved(position);
+            }
+        });
     }
 
     public void createItemTouchHelper()

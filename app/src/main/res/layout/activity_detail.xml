@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/detailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Habit Name"
+        android:textSize="32sp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"/>
+    <ImageView
+        android:id="@+id/detailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/detailTitle"
+        android:src="@drawable/ic_baseline_whatshot_24" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailImage"
+        android:layout_centerHorizontal="true"
+        android:text="Streak"
+        android:id="@+id/detailStreakCount"
+        android:textSize="32sp"/>
+</RelativeLayout>

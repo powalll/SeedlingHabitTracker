@@ -30,5 +30,30 @@
             android:layout_toEndOf="@id/streakImage"
             android:text="streak length"
             android:layout_toRightOf="@id/streakImage" />
+
+        <ImageView
+            android:id="@+id/streakDelete"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:layout_alignParentEnd="true" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/streakLength"
+            android:layout_toEndOf="@id/streakLength"
+            android:src="@drawable/ic_baseline_whatshot_24"
+            android:id="@+id/streakCountImage" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/streakCountImage"
+            android:layout_toEndOf="@id/streakCountImage"
+            android:text="1"
+            android:textSize="40sp"
+            android:textColor="@android:color/holo_orange_dark"
+            android:id="@+id/streakCount"/>
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
