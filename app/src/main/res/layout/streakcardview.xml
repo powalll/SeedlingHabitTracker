@@ -41,8 +41,6 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toRightOf="@id/streakLength"
-            android:layout_toEndOf="@id/streakLength"
             android:src="@drawable/ic_baseline_whatshot_24"
             android:id="@+id/streakCountImage" />
         <TextView

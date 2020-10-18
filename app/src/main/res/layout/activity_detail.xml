@@ -24,4 +24,11 @@
         android:text="Streak"
         android:id="@+id/detailStreakCount"
         android:textSize="32sp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/detailStreakCount"
+        android:text="Check-In"/>
 </RelativeLayout>

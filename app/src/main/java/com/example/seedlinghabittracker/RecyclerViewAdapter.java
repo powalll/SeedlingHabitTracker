@@ -1,17 +1,21 @@
 package com.example.seedlinghabittracker;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>{
     private ArrayList<StreakItem> streakList;
@@ -30,7 +34,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView streakLength;
         public ImageView streakCountImage;
         public TextView streakCount;
-
         public RecyclerViewHolder(@NonNull View itemView, final sendInfo SendInfo) {
             super(itemView);
             streakImage = itemView.findViewById(R.id.streakImage);
@@ -52,14 +55,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 }
             });
+            //update streakcount
+            SharedPreferences sharedPref = itemView.getContext().getSharedPreferences("Detail", MODE_PRIVATE);
+            for(int i = 0; i < getItemCount(); i++)
+            {
+                streakList.get(i).setStreakCount(sharedPref.getInt(streakList.get(i).getHabitTitle(), 0));
+            }
+            //set fire right of longer between title and frequency
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            SharedPreferences sharedPref = view.getContext().getSharedPreferences("Detail", MODE_PRIVATE);
             Intent DetailIntent = new Intent(view.getContext(), DetailActivity.class);
             DetailIntent.putExtra("DetailTitle", streakTitle.getText().toString());
-            DetailIntent.putExtra("DetailStreakCount", streakLength.getText().toString());
+            DetailIntent.putExtra("DetailFrequency", streakLength.getText().toString());
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt("lastPosition", getAdapterPosition()).apply();
             view.getContext().startActivity(DetailIntent);
         }
     }
@@ -80,6 +93,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.streakImage.setImageResource(currentItem.getImageResource());
         holder.streakLength.setText(currentItem.getHabitLength());
         holder.streakTitle.setText(currentItem.getHabitTitle());
+        holder.streakCount.setText(String.valueOf(currentItem.getStreakCount()));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(200,200);
+        if(String.valueOf(streakList.get(position).getHabitTitle()).length() + 3 >= String.valueOf(streakList.get(position).getHabitLength()).length())
+        {
+            params.addRule(RelativeLayout.RIGHT_OF, R.id.streakTitle);
+        }
+        else
+        {
+            params.addRule(RelativeLayout.RIGHT_OF, R.id.streakLength);
+        }
+        holder.streakCountImage.setLayoutParams(params);
     }
 
     @Override

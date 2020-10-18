@@ -8,17 +8,36 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_habit_name"
         android:background="@drawable/edittext_bottom_border"
-        android:inputType="textMultiLine|textCapWords">
-    </EditText>
-    <EditText
-        android:id="@+id/enterHabitFrequencyEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_habit_frequency"
+        android:inputType="textMultiLine|textCapWords"
+        android:autofillHints=""/>
+    <TextView
+        android:id="@+id/radioButtonTextView"
+        android:text="@string/ChooseHabitFrequency"
+        android:textSize="18sp"
         android:layout_below="@id/enterHabitNameEditText"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/edittext_bottom_border"
-        android:inputType="textMultiLine|textCapWords">
-    </EditText>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"/>
+
+    <RadioGroup
+        android:id="@+id/dialogRadioGroup"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/radioButtonTextView">
+        <RadioButton
+            android:id="@+id/dailyRadiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dailyRadioButton" />
+        <RadioButton
+            android:id="@+id/everyOtherDayRadiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/every_other_dayRadioButton" />
+        <RadioButton
+            android:id="@+id/WeeklyRadiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weeklyRadioButton" />
+    </RadioGroup>
 </RelativeLayout>

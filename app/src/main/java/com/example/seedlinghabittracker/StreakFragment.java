@@ -1,12 +1,13 @@
 package com.example.seedlinghabittracker;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class StreakFragment extends Fragment implements AddStreakDialogue.onInputSelected{
+public class StreakFragment extends Fragment implements AddStreakDialogue.onInputSelected {
     private RecyclerView streakRecyclerView;
     private RecyclerViewAdapter streakRecyclerViewAdapter;
     private RecyclerView.LayoutManager streakRecyclerViewLayoutManager;
@@ -31,6 +36,7 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_streak, container, false);
         //streak recyclerview code
+        loadData();
         streakRecyclerView = view.findViewById(R.id.streakRecyclerView);
         streakRecyclerViewLayoutManager = new LinearLayoutManager(view.getContext());
         setStreakRecyclerView();
@@ -41,6 +47,29 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
         createItemTouchHelper();
 
         return view;
+    }
+
+    private void saveData()
+    {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(streakItems);
+        editor.putString("streakItems", json);
+        editor.apply();
+    }
+
+    private void loadData()
+    {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("shared preferences", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("streakItems", null);
+        Type type = new TypeToken<ArrayList<StreakItem>>() {}.getType();
+        streakItems = gson.fromJson(json, type);
+        if(streakItems == null)
+        {
+            streakItems = new ArrayList<>();
+        }
     }
 
     public void openDialog()
@@ -59,8 +88,9 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
 
     @Override
     public void sendInput(String input, String input2) {
-        streakItems.add(new StreakItem(R.drawable.ic_plus_sign_24, input, input2));
+        streakItems.add(new StreakItem(R.drawable.ic_plus_sign_24, input, input2, 0));
         streakRecyclerViewAdapter.notifyDataSetChanged();
+        saveData();
     }
 
     public void createFABClick()
@@ -77,8 +107,6 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
 
     public void setStreakRecyclerView()
     {
-        streakItems = new ArrayList<>();
-        streakItems.add(new StreakItem(R.drawable.ic__home_24, "Title","One Day"));
         streakRecyclerView.setHasFixedSize(true);
         streakRecyclerViewAdapter = new RecyclerViewAdapter(streakItems);
         streakRecyclerView.setLayoutManager(streakRecyclerViewLayoutManager);
@@ -88,6 +116,7 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
             public void delete(int position) {
                 streakItems.remove(position);
                 streakRecyclerViewAdapter.notifyItemRemoved(position);
+                saveData();
             }
         });
     }
@@ -101,6 +130,7 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
                 int to = target.getAdapterPosition();
                 Collections.swap(streakItems, from, to);
                 streakRecyclerViewAdapter.notifyItemMoved(from, to);
+                saveData();
                 return true;
             }
 
@@ -111,4 +141,5 @@ public class StreakFragment extends Fragment implements AddStreakDialogue.onInpu
         });
         helper.attachToRecyclerView(streakRecyclerView);
     }
+
 }

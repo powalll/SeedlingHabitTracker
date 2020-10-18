@@ -6,4 +6,8 @@
     <string name="enter_habit_frequency">Enter Habit Frequency</string>
     <string name="enter_habit_name">Enter Habit Name</string>
     <string name="addstreak_fab_content_description">adds streak</string>
+    <string name="ChooseHabitFrequency">Choose Habit Frequency</string>
+    <string name="dailyRadioButton">Daily</string>
+    <string name="every_other_dayRadioButton">Every Other Day</string>
+    <string name="weeklyRadioButton">Weekly</string>
 </resources>
